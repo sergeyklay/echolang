@@ -54,7 +54,8 @@ EchoLang is a minimal web-based LLM Translator designed for single-user local de
 
 4. **Environment Variables**
    - Sensitive configuration stored in `.env` files (gitignored)
-   - Master encryption key stored in environment variable
+   - Master encryption key stored in environment variable `ENCRYPTION_KEY`
+   - Local LLM base URL configurable via Settings API (stored in database)
    - No hardcoded secrets
 
 ## Project Structure
@@ -91,31 +92,28 @@ echolang/
 │   │   │   └── logger.ts
 │   │   ├── types/
 │   │   │   └── index.ts
-│   │   └── app.ts
+│   │   ├── app.ts
+│   │   └── server.ts
 │   ├── prisma/
 │   │   ├── schema.prisma
+│   │   ├── seed.ts
 │   │   └── migrations/
 │   ├── .env.example
 │   ├── package.json
-│   ├── tsconfig.json
-│   └── server.ts
+│   └── tsconfig.json
 ├── frontend/
 │   ├── src/
 │   │   ├── components/
-│   │   │   ├── Translation/
-│   │   │   │   ├── TranslationForm.tsx
-│   │   │   │   └── TranslationResult.tsx
-│   │   │   ├── History/
-│   │   │   │   └── HistoryList.tsx
-│   │   │   ├── Settings/
-│   │   │   │   ├── ToneManager.tsx
-│   │   │   │   └── ApiKeyManager.tsx
 │   │   │   └── Layout/
 │   │   │       └── Layout.tsx
+│   │   ├── pages/
+│   │   │   ├── Translator.tsx
+│   │   │   ├── History.tsx
+│   │   │   └── Settings.tsx
 │   │   ├── services/
 │   │   │   └── api.ts
 │   │   ├── hooks/
-│   │   │   └── useTranslation.ts
+│   │   │   └── useLocalStorage.ts
 │   │   ├── types/
 │   │   │   └── index.ts
 │   │   ├── App.tsx
@@ -178,6 +176,7 @@ model ApiKey {
   id          String   @id @default(cuid())
   provider    String   @unique // 'openai', 'anthropic', 'gemini', 'local'
   encryptedKey String  // Encrypted API key
+  baseUrl     String?  // Optional base URL for local LLM provider
   isActive    Boolean  @default(true)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -190,7 +189,7 @@ model ApiKey {
 
 ### Translation Endpoints
 
-#### POST /api/translations
+#### POST /api/translate
 Translate text using an LLM.
 
 **Request Body:**
@@ -393,6 +392,16 @@ Get all API key configurations (encrypted keys are not returned).
       "provider": "openai",
       "isActive": true,
       "hasKey": true,
+      "baseUrl": null,
+      "createdAt": "2024-01-01T00:00:00Z",
+      "updatedAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "key-id-2",
+      "provider": "local",
+      "isActive": true,
+      "hasKey": true,
+      "baseUrl": "http://localhost:11434",
       "createdAt": "2024-01-01T00:00:00Z",
       "updatedAt": "2024-01-01T00:00:00Z"
     }
@@ -408,9 +417,12 @@ Create or update an API key.
 {
   "provider": "openai",
   "apiKey": "sk-...",
-  "isActive": true
+  "isActive": true,
+  "baseUrl": "http://localhost:11434"
 }
 ```
+
+**Note:** `baseUrl` is optional and only used for the "local" provider. For other providers, it should be omitted or set to null.
 
 **Response:**
 ```json
@@ -419,6 +431,7 @@ Create or update an API key.
   "provider": "openai",
   "isActive": true,
   "hasKey": true,
+  "baseUrl": null,
   "createdAt": "2024-01-01T00:00:00Z",
   "updatedAt": "2024-01-01T00:00:00Z"
 }
@@ -431,9 +444,12 @@ Update an API key configuration.
 ```json
 {
   "apiKey": "sk-new-key",
-  "isActive": true
+  "isActive": true,
+  "baseUrl": "http://localhost:11434"
 }
 ```
+
+**Note:** All fields are optional. At least one field must be provided. `baseUrl` is only relevant for the "local" provider.
 
 **Response:**
 ```json
@@ -442,6 +458,7 @@ Update an API key configuration.
   "provider": "openai",
   "isActive": true,
   "hasKey": true,
+  "baseUrl": null,
   "createdAt": "2024-01-01T00:00:00Z",
   "updatedAt": "2024-01-01T00:00:00Z"
 }
