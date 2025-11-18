@@ -18,6 +18,8 @@ This project is a proof-of-concept for fully AI-driven development. Since I didn
 
 It works for me, but it comes with **no warranties**. Always audit the code before using it for anything serious.
 
+During the development of this project, I kept records of all the prompts I used with the agents, along with tracked timings for each major task. You’ll find all of these details in [docs/HISTORY.md](docs/HISTORY.md). If you’re interested in repeating this experiment or trying something similar, feel free to use this file as a reference.
+
 ## Screenshots
 
 ![Screenshot 1](docs/screenshots/Screenshot1.png)
