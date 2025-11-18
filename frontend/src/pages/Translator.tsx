@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { api } from '../services/api';
+import useLocalStorage from '../hooks/useLocalStorage';
 import type { Tone, TranslationRequest } from '../types';
 
 const LANGUAGES = [
@@ -25,11 +26,11 @@ const LLM_PROVIDERS = [
 export function Translator() {
   const [sourceText, setSourceText] = useState('');
   const [translatedText, setTranslatedText] = useState('');
-  const [sourceLanguage, setSourceLanguage] = useState('en');
-  const [targetLanguage, setTargetLanguage] = useState('es');
-  const [toneId, setToneId] = useState<string>('');
-  const [llmProvider, setLlmProvider] = useState('openai');
-  const [model, setModel] = useState('');
+  const [sourceLanguage, setSourceLanguage] = useLocalStorage('translator.sourceLanguage', 'en');
+  const [targetLanguage, setTargetLanguage] = useLocalStorage('translator.targetLanguage', 'es');
+  const [toneId, setToneId] = useLocalStorage<string>('translator.toneId', '');
+  const [llmProvider, setLlmProvider] = useLocalStorage('translator.llmProvider', 'openai');
+  const [model, setModel] = useLocalStorage('translator.model', '');
   const [tones, setTones] = useState<Tone[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -37,6 +38,15 @@ export function Translator() {
   useEffect(() => {
     loadTones();
   }, []);
+
+  useEffect(() => {
+    if (tones.length > 0 && toneId) {
+      const toneExists = tones.some((tone) => tone.id === toneId);
+      if (!toneExists) {
+        setToneId('');
+      }
+    }
+  }, [tones, toneId, setToneId]);
 
   const loadTones = async () => {
     try {
@@ -90,7 +100,9 @@ export function Translator() {
             </label>
             <select
               value={sourceLanguage}
-              onChange={(e) => setSourceLanguage(e.target.value)}
+              onChange={(e) => {
+                setSourceLanguage(e.target.value);
+              }}
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               {LANGUAGES.map((lang) => (
@@ -107,7 +119,9 @@ export function Translator() {
             </label>
             <select
               value={targetLanguage}
-              onChange={(e) => setTargetLanguage(e.target.value)}
+              onChange={(e) => {
+                setTargetLanguage(e.target.value);
+              }}
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               {LANGUAGES.map((lang) => (
@@ -124,7 +138,9 @@ export function Translator() {
             </label>
             <select
               value={toneId}
-              onChange={(e) => setToneId(e.target.value)}
+              onChange={(e) => {
+                setToneId(e.target.value);
+              }}
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="">Select a tone</option>
@@ -144,7 +160,9 @@ export function Translator() {
             </label>
             <select
               value={llmProvider}
-              onChange={(e) => setLlmProvider(e.target.value)}
+              onChange={(e) => {
+                setLlmProvider(e.target.value);
+              }}
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               {LLM_PROVIDERS.map((provider) => (
@@ -162,7 +180,9 @@ export function Translator() {
             <input
               type="text"
               value={model}
-              onChange={(e) => setModel(e.target.value)}
+              onChange={(e) => {
+                setModel(e.target.value);
+              }}
               placeholder="e.g., gpt-4, claude-3-opus"
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />

@@ -12,7 +12,7 @@ A minimal web-based LLM Translator for single-user local deployment. Translate t
 
 ## Disclaimer
 
-My goal was to build a fully finished app that's actually useful to me and just works - without writing a single line of code myself. I offloaded the whole thing to the LLM. Basically, I was testing the agentic capabilities of AI to see what this means for developers. And I want to emphasize this again: *I didn't write one bit of code for this app*. I spent 1 hour and 28 minutes on this project - prompting agents, code review, manual testing, code-generation, etc.
+My goal was to build a fully finished app that's actually useful to me and just works - without writing a single line of code myself. I offloaded the whole thing to the LLM. Basically, I was testing the agentic capabilities of AI to see what this means for developers. And I want to emphasize this again: *I didn't write one bit of code for this app*. I spent 1 hour and 28 minutes on base implementation of this project - prompting agents, code review, manual testing, code-generation, etc. Then I added Quality-of-Life improvements to the project and spent another 22 minutes on that. Total time spent on this project was 1 hour and 50 minutes.
 
 This project is a proof-of-concept for fully AI-driven development. Since I didn't write the lines myself, treat this as experimental software.
 

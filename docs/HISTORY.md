@@ -139,3 +139,60 @@ Based on current codebase, as well as  @ARCHITECTURE.md create README.md file de
 - Model: Auto
 - Review time: ~ 5 min
 - Add static files and 'Disclaimer' section: ~ 2 min
+
+
+## Session 3: Quality-of-Life improvements in client-side
+
+Use the same session as for client-side.
+
+```md
+Based on current codebase, add Quality-of-Life improvements to the project.
+
+## Design Style
+
+- Follow project code style and architecture described in @ARCHITECTURE.md
+- Be concise
+- Follow best practices and recommendations for modern web development
+- Use context7
+
+## Tasks
+
+1. After first usage model name should be saved in the local storage/cookie so that it's not asked again after page reload
+2. Source Language, Target Language, Tone and LLM Provider should be saved in the local storage/cookie so that it's not asked again after page reload
+```
+
+- Writing prompt: < 3 min
+- Generated time:  ~ 2 min
+- Mode: Agentic
+- Model: Auto
+- Review time: ~ 2 min
+- Manual test: ~ 1 min
+
+## Session 2: Quality-of-Life improvements in backend
+
+Use the same session as for backend.
+
+```md
+Based on current codebase, add Quality-of-Life improvements to the backend.
+
+## Design Style
+
+- Follow project code style and architecture described in @ARCHITECTURE.md
+- Be concise
+- Follow best practices and recommendations for modern web development
+- Use context7
+
+## Tasks
+
+1. Instead of using `LOCAL_LLM_URL` env variable for local LLM, add a setting to the Settings page to set the URL for local LLM. This field should be optional.
+2. Use migrations to update the database schema to store the URL for local LLM.
+3. `LOCAL_LLM_URL` env variable shouldn't be used anymore.
+```
+- Writing prompt: ~ 2 min
+- Generated time:  ~ 3 min
+- Mode: Agentic
+- Model: Auto
+- Review time: ~ 3 min
+- Fix errors using prompting: ~ 2 min
+- Generated fix time:  ~ 2 min
+- Manual test: ~ 2 min

@@ -34,6 +34,7 @@ export interface ApiKey {
   provider: string;
   isActive: boolean;
   hasKey: boolean;
+  baseUrl?: string | null;
   createdAt: string;
   updatedAt: string;
 }
@@ -42,6 +43,7 @@ export interface ApiKeyRequest {
   provider: string;
   apiKey: string;
   isActive?: boolean;
+  baseUrl?: string;
 }
 
 export interface HistoryResponse {

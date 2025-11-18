@@ -14,13 +14,15 @@ const apiKeySchema = z.object({
   provider: z.string().min(1),
   apiKey: z.string().min(1),
   isActive: z.boolean().optional(),
+  baseUrl: z.union([z.string().url(), z.literal('')]).optional(),
 });
 
 const updateApiKeySchema = z.object({
   apiKey: z.string().min(1).optional(),
   isActive: z.boolean().optional(),
-}).refine(data => data.apiKey !== undefined || data.isActive !== undefined, {
-  message: 'At least one field (apiKey or isActive) must be provided',
+  baseUrl: z.union([z.string().url(), z.literal('')]).optional(),
+}).refine(data => data.apiKey !== undefined || data.isActive !== undefined || data.baseUrl !== undefined, {
+  message: 'At least one field (apiKey, isActive, or baseUrl) must be provided',
 });
 
 router.get('/api-keys', getApiKeys);

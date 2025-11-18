@@ -28,6 +28,7 @@ export function Settings() {
     provider: 'openai',
     apiKey: '',
     isActive: true,
+    baseUrl: '',
   });
   const [editingApiKey, setEditingApiKey] = useState<ApiKey | null>(null);
 
@@ -101,13 +102,17 @@ export function Settings() {
         await api.settings.updateApiKey(editingApiKey.id, {
           apiKey: apiKeyForm.apiKey,
           isActive: apiKeyForm.isActive,
+          baseUrl: apiKeyForm.baseUrl || undefined,
         });
         setSuccess('API key updated successfully');
       } else {
-        await api.settings.createApiKey(apiKeyForm);
+        await api.settings.createApiKey({
+          ...apiKeyForm,
+          baseUrl: apiKeyForm.baseUrl || undefined,
+        });
         setSuccess('API key saved successfully');
       }
-      setApiKeyForm({ provider: 'openai', apiKey: '', isActive: true });
+      setApiKeyForm({ provider: 'openai', apiKey: '', isActive: true, baseUrl: '' });
       setEditingApiKey(null);
       await loadData();
     } catch (err) {
@@ -121,6 +126,7 @@ export function Settings() {
       provider: apiKey.provider,
       apiKey: '',
       isActive: apiKey.isActive,
+      baseUrl: apiKey.baseUrl || '',
     });
   };
 
@@ -278,7 +284,7 @@ export function Settings() {
                 <select
                   value={apiKeyForm.provider}
                   onChange={(e) =>
-                    setApiKeyForm({ ...apiKeyForm, provider: e.target.value })
+                    setApiKeyForm({ ...apiKeyForm, provider: e.target.value, baseUrl: '' })
                   }
                   disabled={!!editingApiKey}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100"
@@ -319,6 +325,25 @@ export function Settings() {
                 </label>
               </div>
             </div>
+            {apiKeyForm.provider === 'local' && (
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Base URL (Optional)
+                </label>
+                <input
+                  type="url"
+                  value={apiKeyForm.baseUrl}
+                  onChange={(e) =>
+                    setApiKeyForm({ ...apiKeyForm, baseUrl: e.target.value })
+                  }
+                  placeholder="http://localhost:11434"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                <p className="text-xs text-gray-500 mt-1">
+                  Leave empty to use default: http://localhost:11434
+                </p>
+              </div>
+            )}
             <div className="flex gap-2">
               <button
                 type="submit"
@@ -331,7 +356,7 @@ export function Settings() {
                   type="button"
                   onClick={() => {
                     setEditingApiKey(null);
-                    setApiKeyForm({ provider: 'openai', apiKey: '', isActive: true });
+                    setApiKeyForm({ provider: 'openai', apiKey: '', isActive: true, baseUrl: '' });
                   }}
                   className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-colors"
                 >
@@ -371,6 +396,11 @@ export function Settings() {
                       {apiKey.isActive ? 'Active' : 'Inactive'}
                     </span>
                   </div>
+                  {apiKey.provider === 'local' && apiKey.baseUrl && (
+                    <p className="text-xs text-gray-500 mt-1">
+                      URL: {apiKey.baseUrl}
+                    </p>
+                  )}
                 </div>
                 <div className="flex gap-2">
                   <button

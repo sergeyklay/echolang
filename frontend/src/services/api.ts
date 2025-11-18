@@ -113,7 +113,7 @@ export const api = {
         body: JSON.stringify(data),
       }),
 
-    updateApiKey: (id: string, data: { apiKey?: string; isActive?: boolean }): Promise<ApiKey> =>
+    updateApiKey: (id: string, data: { apiKey?: string; isActive?: boolean; baseUrl?: string }): Promise<ApiKey> =>
       fetchAPI<ApiKey>(`/api/settings/api-keys/${id}`, {
         method: 'PUT',
         body: JSON.stringify(data),

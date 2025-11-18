@@ -8,7 +8,7 @@ import { LocalService } from './llm/local.service';
 import { TranslationRequest } from '../types';
 import { logger } from '../utils/logger';
 
-function createLLMService(provider: string, apiKey: string, model?: string): LLMService {
+function createLLMService(provider: string, apiKey: string, model?: string, baseUrl?: string): LLMService {
   const config = { apiKey, model };
 
   switch (provider.toLowerCase()) {
@@ -19,7 +19,7 @@ function createLLMService(provider: string, apiKey: string, model?: string): LLM
     case 'gemini':
       return new GeminiService(config);
     case 'local':
-      return new LocalService({ ...config, baseUrl: process.env.LOCAL_LLM_URL });
+      return new LocalService({ ...config, baseUrl: baseUrl || 'http://localhost:11434' });
     default:
       throw new Error(`Unsupported LLM provider: ${provider}`);
   }
@@ -35,6 +35,18 @@ async function getApiKey(provider: string): Promise<string> {
   }
 
   return encryptionService.decrypt(apiKeyRecord.encryptedKey);
+}
+
+async function getBaseUrl(provider: string): Promise<string | undefined> {
+  if (provider.toLowerCase() !== 'local') {
+    return undefined;
+  }
+
+  const apiKeyRecord = await prisma.apiKey.findUnique({
+    where: { provider: 'local' },
+  });
+
+  return apiKeyRecord?.baseUrl || undefined;
 }
 
 async function getSystemPrompt(toneId?: string): Promise<string> {
@@ -67,7 +79,8 @@ export async function translateText(request: TranslationRequest): Promise<{
   try {
     const systemPrompt = await getSystemPrompt(request.toneId);
     const apiKey = await getApiKey(request.llmProvider);
-    const llmService = createLLMService(request.llmProvider, apiKey, request.model);
+    const baseUrl = await getBaseUrl(request.llmProvider);
+    const llmService = createLLMService(request.llmProvider, apiKey, request.model, baseUrl);
 
     logger.info(`Translating text using ${request.llmProvider}...`);
     const translatedText = await llmService.translate(

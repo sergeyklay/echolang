@@ -14,6 +14,7 @@ export async function getApiKeys(req: Request, res: Response) {
       provider: key.provider,
       isActive: key.isActive,
       hasKey: !!key.encryptedKey,
+      baseUrl: key.baseUrl,
       createdAt: key.createdAt,
       updatedAt: key.updatedAt,
     }));
@@ -27,7 +28,8 @@ export async function getApiKeys(req: Request, res: Response) {
 
 export async function createApiKey(req: Request, res: Response) {
   try {
-    const { provider, apiKey, isActive = true } = req.body;
+    const { provider, apiKey, isActive = true, baseUrl } = req.body;
+    const normalizedBaseUrl = baseUrl && baseUrl.trim() !== '' ? baseUrl : null;
 
     if (!provider || !apiKey) {
       return res.status(400).json({ error: 'Provider and API key are required' });
@@ -46,6 +48,7 @@ export async function createApiKey(req: Request, res: Response) {
         data: {
           encryptedKey,
           isActive,
+          baseUrl: normalizedBaseUrl,
         },
       });
     } else {
@@ -54,6 +57,7 @@ export async function createApiKey(req: Request, res: Response) {
           provider: provider.toLowerCase(),
           encryptedKey,
           isActive,
+          baseUrl: normalizedBaseUrl,
         },
       });
     }
@@ -63,6 +67,7 @@ export async function createApiKey(req: Request, res: Response) {
       provider: apiKeyRecord.provider,
       isActive: apiKeyRecord.isActive,
       hasKey: true,
+      baseUrl: apiKeyRecord.baseUrl,
       createdAt: apiKeyRecord.createdAt,
       updatedAt: apiKeyRecord.updatedAt,
     });
@@ -79,7 +84,8 @@ export async function createApiKey(req: Request, res: Response) {
 export async function updateApiKey(req: Request, res: Response) {
   try {
     const { id } = req.params;
-    const { apiKey, isActive } = req.body;
+    const { apiKey, isActive, baseUrl } = req.body;
+    const normalizedBaseUrl = baseUrl !== undefined ? (baseUrl && baseUrl.trim() !== '' ? baseUrl : null) : undefined;
 
     const existingKey = await prisma.apiKey.findUnique({
       where: { id },
@@ -89,12 +95,15 @@ export async function updateApiKey(req: Request, res: Response) {
       return res.status(404).json({ error: 'API key not found' });
     }
 
-    const updateData: { encryptedKey?: string; isActive?: boolean } = {};
+    const updateData: { encryptedKey?: string; isActive?: boolean; baseUrl?: string | null } = {};
     if (apiKey !== undefined) {
       updateData.encryptedKey = encryptionService.encrypt(apiKey);
     }
     if (isActive !== undefined) {
       updateData.isActive = isActive;
+    }
+    if (normalizedBaseUrl !== undefined) {
+      updateData.baseUrl = normalizedBaseUrl;
     }
 
     const apiKeyRecord = await prisma.apiKey.update({
@@ -107,6 +116,7 @@ export async function updateApiKey(req: Request, res: Response) {
       provider: apiKeyRecord.provider,
       isActive: apiKeyRecord.isActive,
       hasKey: !!apiKeyRecord.encryptedKey,
+      baseUrl: apiKeyRecord.baseUrl,
       createdAt: apiKeyRecord.createdAt,
       updatedAt: apiKeyRecord.updatedAt,
     });
