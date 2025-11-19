@@ -40,6 +40,28 @@ reviews:
         2. When reviewing the file 'README.md' it should be linted with help
            from the tools `markdownlint` and `languagetool`, pointing out any issues.
         3. You may assume the file 'README.md' will contain GitHub flavor Markdown.
+    - path: "**/package.json"
+      instructions: >-
+        1. Verify that ONLY npm is used - alternative package managers (yarn, pnpm, bun) are forbidden.
+        2. Ensure package-lock.json is committed and present.
+        3. Check that no global installations are used (no -g flag).
+        4. Verify no @latest syntax is used in version specifications.
+        5. Review dependency versions for security vulnerabilities.
+    - path: "**/*.ts"
+      instructions: >-
+        1. Enforce TypeScript strict mode compliance.
+        2. Follow Airbnb style guide for TypeScript (enforced by ESLint).
+        3. Enforce 100-character line-length limit.
+        4. Require JSDoc style docstrings for functions, classes, and complex interfaces.
+        5. Use imperative voice in descriptions, focus on side effects, parameters, return types, and potential errors.
+        6. Flag obvious comments explaining basic syntax.
+    - path: "**/*.tsx"
+      instructions: >-
+        1. Use functional components with hooks only.
+        2. Keep components small and focused.
+        3. Ensure proper prop typing.
+        4. Verify file naming follows PascalCase.tsx convention.
+        5. Follow TypeScript strict mode and Airbnb style guide.
   abort_on_close: true
   disable_cache: false
   auto_review:
@@ -165,8 +187,8 @@ code_generation:
       - path: "**/*.ts"
         instructions: >-
           Adhere **strictly** to the **Airbnb style guide** for TypeScript
-          formatting, enforced by ESLint. Use 100 characters as a limit for line
-          length unless specifically required by the style guide. Do not use
+          formatting, enforced by ESLint. Use 100-character line-length limit
+          unless specifically required by the style guide. Do not use
           obvious comments (e.g., explaining basic syntax). The target audience
           is a senior Node.js/TypeScript developer. Document functions,
           classes, and complex interfaces using **JSDoc style** docstrings.
