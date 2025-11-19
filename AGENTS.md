@@ -20,7 +20,7 @@ For initial setup, follow the instructions in [docs/DEVELOPMENT.md](docs/DEVELOP
 For detailed coding standards including TypeScript, React, and dependency management rules, see [docs/CODING_STANDARDS.md](docs/CODING_STANDARDS.md).
 
 **Quick reference:**
-- TypeScript strict mode, Airbnb style guide, 100 character line limit
+- TypeScript strict mode, Airbnb style guide, 100-character line limit
 - React functional components with hooks
 - **ONLY use npm** - alternative package managers are forbidden
 
