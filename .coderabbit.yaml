@@ -51,7 +51,7 @@ reviews:
       instructions: >-
         1. Enforce TypeScript strict mode compliance.
         2. Follow Airbnb style guide for TypeScript (enforced by ESLint).
-        3. Enforce 100-character line length limit.
+        3. Enforce 100-character line-length limit.
         4. Require JSDoc style docstrings for functions, classes, and complex interfaces.
         5. Use imperative voice in descriptions, focus on side effects, parameters, return types, and potential errors.
         6. Flag obvious comments explaining basic syntax.
@@ -187,7 +187,7 @@ code_generation:
       - path: "**/*.ts"
         instructions: >-
           Adhere **strictly** to the **Airbnb style guide** for TypeScript
-          formatting, enforced by ESLint. Use 100-character line length limit
+          formatting, enforced by ESLint. Use 100-character line-length limit
           unless specifically required by the style guide. Do not use
           obvious comments (e.g., explaining basic syntax). The target audience
           is a senior Node.js/TypeScript developer. Document functions,

@@ -6,7 +6,7 @@ This file provides coding standards for the EchoLang project. For agent-specific
 
 - Use TypeScript strict mode
 - Follow Airbnb style guide for TypeScript (enforced by ESLint)
-- 100-character line length limit
+- 100-character line-length limit
 - Use JSDoc style docstrings for functions, classes, and complex interfaces
 - Imperative voice in descriptions, focus on side effects, parameters, return types, and potential errors
 - Avoid obvious comments explaining basic syntax
