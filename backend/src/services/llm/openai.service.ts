@@ -1,12 +1,15 @@
+import OpenAI from 'openai';
 import { LLMService, LLMConfig } from './llm.service';
 import { logger } from '../../utils/logger';
 
 export class OpenAIService implements LLMService {
-  private apiKey: string;
+  private client: OpenAI;
   private defaultModel: string;
 
   constructor(config: LLMConfig) {
-    this.apiKey = config.apiKey;
+    this.client = new OpenAI({
+      apiKey: config.apiKey,
+    });
     this.defaultModel = config.model || 'gpt-4';
   }
 
@@ -18,15 +21,9 @@ export class OpenAIService implements LLMService {
     model?: string
   ): Promise<string> {
     const modelToUse = model || this.defaultModel;
-    const url = 'https://api.openai.com/v1/chat/completions';
 
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${this.apiKey}`,
-      },
-      body: JSON.stringify({
+    try {
+      const completion = await this.client.chat.completions.create({
         model: modelToUse,
         messages: [
           {
@@ -39,17 +36,16 @@ export class OpenAIService implements LLMService {
           },
         ],
         temperature: 0.3,
-      }),
-    });
+      });
 
-    if (!response.ok) {
-      const error = (await response.json().catch(() => ({ error: 'Unknown error' }))) as { error?: { message?: string } };
+      return completion.choices[0]?.message?.content || '';
+    } catch (error) {
       logger.error('OpenAI API error:', error);
-      throw new Error(`OpenAI API error: ${error.error?.message || 'Failed to translate'}`);
+      if (error instanceof Error) {
+        throw new Error(`OpenAI API error: ${error.message}`);
+      }
+      throw new Error('Failed to translate');
     }
-
-    const data = (await response.json()) as { choices?: Array<{ message?: { content?: string } }> };
-    return data.choices?.[0]?.message?.content || '';
   }
 }
 
