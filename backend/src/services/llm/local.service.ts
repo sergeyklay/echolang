@@ -34,6 +34,9 @@ export class LocalService implements LLMService {
           model: modelToUse,
           prompt: prompt,
           stream: false,
+          options: {
+            temperature: 0.3,
+          },
         }),
       });
 

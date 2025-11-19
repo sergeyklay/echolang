@@ -37,6 +37,9 @@ export class GeminiService implements LLMService {
             ],
           },
         ],
+        generationConfig: {
+          temperature: 0.3,
+        },
       }),
     });
 

@@ -30,6 +30,7 @@ export class AnthropicService implements LLMService {
       body: JSON.stringify({
         model: modelToUse,
         max_tokens: 1024,
+        temperature: 0.3,
         system: systemPrompt,
         messages: [
           {
