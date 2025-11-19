@@ -24,6 +24,18 @@ const LLM_PROVIDERS = [
   { value: 'local', label: 'Local' },
 ];
 
+/**
+ * Main translator page component.
+ *
+ * Provides the primary translation interface where users can:
+ * - Input text to translate
+ * - Select source and target languages
+ * - Choose translation tone
+ * - Select LLM provider and model
+ * - View translated output
+ *
+ * Translation settings are persisted to localStorage for convenience.
+ */
 export function Translator() {
   const [sourceText, setSourceText] = useState('');
   const [translatedText, setTranslatedText] = useState('');

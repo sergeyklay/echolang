@@ -51,9 +51,9 @@ reviews:
     base_branches: []
   finishing_touches:
     docstrings:
-      enabled: false
+      enabled: true
     unit_tests:
-      enabled: false
+      enabled: true
   tools:
     ast-grep:
       rule_dirs: []
