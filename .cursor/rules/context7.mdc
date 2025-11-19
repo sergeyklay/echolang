@@ -4,13 +4,6 @@ globs: **/*
 alwaysApply: true
 ---
 
-## Context
-
-Context7 is a MCP that help you to have the Context about a library.
-You can use their tools to have the documentation about any library you want to use.
-
-## Rules
-
 Always use context7 when I need code generation, setup or configuration steps, or
 library/API documentation. This means you should automatically use the Context7 MCP
 tools to resolve library id and get library docs without me having to explicitly ask.
