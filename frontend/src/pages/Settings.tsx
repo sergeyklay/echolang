@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { api } from '../services/api';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
 import type { Tone, ApiKey } from '../types';
 
 const LLM_PROVIDERS = [
@@ -9,6 +10,15 @@ const LLM_PROVIDERS = [
   { value: 'local', label: 'Local' },
 ];
 
+/**
+ * Settings page component for managing application configuration.
+ *
+ * Allows users to:
+ * - Create, edit, and delete custom translation tones with system prompts
+ * - Configure API keys for different LLM providers (OpenAI, Anthropic, Gemini, Local)
+ * - Toggle API key activation status
+ * - Set custom base URLs for local LLM providers
+ */
 export function Settings() {
   const [tones, setTones] = useState<Tone[]>([]);
   const [apiKeys, setApiKeys] = useState<ApiKey[]>([]);
@@ -31,6 +41,8 @@ export function Settings() {
     baseUrl: '',
   });
   const [editingApiKey, setEditingApiKey] = useState<ApiKey | null>(null);
+
+  useDocumentTitle('Settings');
 
   useEffect(() => {
     loadData();

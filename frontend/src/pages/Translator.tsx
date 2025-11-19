@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { api } from '../services/api';
 import useLocalStorage from '../hooks/useLocalStorage';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
 import type { Tone, TranslationRequest } from '../types';
 
 const LANGUAGES = [
@@ -23,6 +24,18 @@ const LLM_PROVIDERS = [
   { value: 'local', label: 'Local' },
 ];
 
+/**
+ * Main translator page component.
+ *
+ * Provides the primary translation interface where users can:
+ * - Input text to translate
+ * - Select source and target languages
+ * - Choose translation tone
+ * - Select LLM provider and model
+ * - View translated output
+ *
+ * Translation settings are persisted to localStorage for convenience.
+ */
 export function Translator() {
   const [sourceText, setSourceText] = useState('');
   const [translatedText, setTranslatedText] = useState('');
@@ -34,6 +47,8 @@ export function Translator() {
   const [tones, setTones] = useState<Tone[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useDocumentTitle('Translator');
 
   useEffect(() => {
     loadTones();
