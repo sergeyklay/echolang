@@ -1,12 +1,15 @@
+import Anthropic from '@anthropic-ai/sdk';
 import { LLMService, LLMConfig } from './llm.service';
 import { logger } from '../../utils/logger';
 
 export class AnthropicService implements LLMService {
-  private apiKey: string;
+  private client: Anthropic;
   private defaultModel: string;
 
   constructor(config: LLMConfig) {
-    this.apiKey = config.apiKey;
+    this.client = new Anthropic({
+      apiKey: config.apiKey,
+    });
     this.defaultModel = config.model || 'claude-3-opus-20240229';
   }
 
@@ -18,16 +21,9 @@ export class AnthropicService implements LLMService {
     model?: string
   ): Promise<string> {
     const modelToUse = model || this.defaultModel;
-    const url = 'https://api.anthropic.com/v1/messages';
 
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': this.apiKey,
-        'anthropic-version': '2023-06-01',
-      },
-      body: JSON.stringify({
+    try {
+      const message = await this.client.messages.create({
         model: modelToUse,
         max_tokens: 1024,
         temperature: 0.3,
@@ -38,17 +34,20 @@ export class AnthropicService implements LLMService {
             content: `Translate the following text from ${sourceLanguage} to ${targetLanguage}:\n\n${text}`,
           },
         ],
-      }),
-    });
+      });
 
-    if (!response.ok) {
-      const error = (await response.json().catch(() => ({ error: 'Unknown error' }))) as { error?: { message?: string } };
+      const textContent = message.content.find((block) => block.type === 'text');
+      if (textContent && 'text' in textContent) {
+        return textContent.text;
+      }
+      return '';
+    } catch (error) {
       logger.error('Anthropic API error:', error);
-      throw new Error(`Anthropic API error: ${error.error?.message || 'Failed to translate'}`);
+      if (error instanceof Error) {
+        throw new Error(`Anthropic API error: ${error.message}`);
+      }
+      throw new Error('Failed to translate');
     }
-
-    const data = (await response.json()) as { content?: Array<{ text?: string }> };
-    return data.content?.[0]?.text || '';
   }
 }
 
