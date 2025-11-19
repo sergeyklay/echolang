@@ -1,12 +1,15 @@
+import { GoogleGenAI } from '@google/genai';
 import { LLMService, LLMConfig } from './llm.service';
 import { logger } from '../../utils/logger';
 
 export class GeminiService implements LLMService {
-  private apiKey: string;
+  private client: GoogleGenAI;
   private defaultModel: string;
 
   constructor(config: LLMConfig) {
-    this.apiKey = config.apiKey;
+    this.client = new GoogleGenAI({
+      apiKey: config.apiKey,
+    });
     this.defaultModel = config.model || 'gemini-pro';
   }
 
@@ -18,39 +21,25 @@ export class GeminiService implements LLMService {
     model?: string
   ): Promise<string> {
     const modelToUse = model || this.defaultModel;
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/${modelToUse}:generateContent?key=${this.apiKey}`;
-
     const prompt = `${systemPrompt}\n\nTranslate the following text from ${sourceLanguage} to ${targetLanguage}:\n\n${text}`;
 
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        contents: [
-          {
-            parts: [
-              {
-                text: prompt,
-              },
-            ],
-          },
-        ],
-        generationConfig: {
+    try {
+      const response = await this.client.models.generateContent({
+        model: modelToUse,
+        contents: prompt,
+        config: {
           temperature: 0.3,
         },
-      }),
-    });
+      });
 
-    if (!response.ok) {
-      const error = (await response.json().catch(() => ({ error: 'Unknown error' }))) as { error?: { message?: string } };
+      return response.text ?? '';
+    } catch (error) {
       logger.error('Gemini API error:', error);
-      throw new Error(`Gemini API error: ${error.error?.message || 'Failed to translate'}`);
+      if (error instanceof Error) {
+        throw new Error(`Gemini API error: ${error.message}`);
+      }
+      throw new Error('Failed to translate');
     }
-
-    const data = (await response.json()) as { candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }> };
-    return data.candidates?.[0]?.content?.parts?.[0]?.text || '';
   }
 }
 
