@@ -40,6 +40,15 @@ reviews:
         2. When reviewing the file 'README.md' it should be linted with help
            from the tools `markdownlint` and `languagetool`, pointing out any issues.
         3. You may assume the file 'README.md' will contain GitHub flavor Markdown.
+    - path: "**/package.json"
+      instructions: >-
+        See Dependency Management section in docs/CODING_STANDARDS.md for detailed rules.
+    - path: "**/*"
+      instructions: >-
+        1. AGENTS.md is the central hub for AI agent guidance in this project.
+        2. It contains coding standards, setup commands, testing instructions, and references to other documentation.
+        3. Always consult AGENTS.md for project-specific conventions and workflows.
+        4. AGENTS.md references ARCHITECTURE.md for architecture details and docs/DEVELOPMENT.md for development workflows.
   abort_on_close: true
   disable_cache: false
   auto_review:

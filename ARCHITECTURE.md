@@ -101,6 +101,10 @@ echolang/
 │   ├── .env.example
 │   ├── package.json
 │   └── tsconfig.json
+├── docs/
+│   ├── CODING_STANDARDS.md
+│   ├── DEVELOPMENT.md
+│   └── ARCHITECTURE.md
 ├── frontend/
 │   ├── src/
 │   │   ├── components/
@@ -124,6 +128,7 @@ echolang/
 │   └── vite.config.ts
 ├── .envrc
 ├── .gitignore
+├── AGENTS.md
 ├── ARCHITECTURE.md
 └── README.md
 ```
