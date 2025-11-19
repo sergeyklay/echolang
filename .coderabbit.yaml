@@ -79,7 +79,7 @@ reviews:
       enabled_only: false
       level: default
     biome:
-      enabled: true
+      enabled: false
     hadolint:
       enabled: true
     swiftlint:
