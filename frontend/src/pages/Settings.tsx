@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { api } from '../services/api';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
 import type { Tone, ApiKey } from '../types';
 
 const LLM_PROVIDERS = [
@@ -31,6 +32,8 @@ export function Settings() {
     baseUrl: '',
   });
   const [editingApiKey, setEditingApiKey] = useState<ApiKey | null>(null);
+
+  useDocumentTitle('Settings');
 
   useEffect(() => {
     loadData();

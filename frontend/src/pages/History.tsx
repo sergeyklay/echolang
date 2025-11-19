@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { api } from '../services/api';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
 import type { Translation } from '../types';
 
 export function History() {
@@ -7,6 +8,8 @@ export function History() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [copiedId, setCopiedId] = useState<string | null>(null);
+
+  useDocumentTitle('History');
 
   useEffect(() => {
     loadHistory();

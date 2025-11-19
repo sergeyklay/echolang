@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { api } from '../services/api';
 import useLocalStorage from '../hooks/useLocalStorage';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
 import type { Tone, TranslationRequest } from '../types';
 
 const LANGUAGES = [
@@ -34,6 +35,8 @@ export function Translator() {
   const [tones, setTones] = useState<Tone[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useDocumentTitle('Translator');
 
   useEffect(() => {
     loadTones();
