@@ -60,7 +60,7 @@ EchoLang is a minimal web-based LLM Translator designed for single-user local de
 
 ## Project Structure
 
-```
+```text
 echolang/
 ├── backend/
 │   ├── src/
