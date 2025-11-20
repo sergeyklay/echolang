@@ -1,8 +1,9 @@
 import { PrismaClient } from '@prisma/client';
 
 /**
- * Clears all test database tables by deleting all records in the correct order within a transaction.
- * This ensures atomicity and handles foreign key constraints properly.
+ * Clears all test database tables by deleting all records in the correct order
+ * within a transaction. This ensures atomicity and handles foreign key
+ * constraints properly.
  *
  * The deletion order is determined by foreign key relationships:
  * - Translation (has FK to Tone) must be deleted before Tone
@@ -12,7 +13,8 @@ import { PrismaClient } from '@prisma/client';
  * @param prisma - Prisma client instance used to perform database operations
  * @returns Promise that resolves when all tables are cleared
  * @throws Error if the transaction fails
- * @sideEffect Deletes all translation, tone, and apiKey records from the database
+ * @sideEffect Deletes all translation, tone, and apiKey records from the
+ * database
  */
 export async function cleanDatabase(prisma: PrismaClient): Promise<void> {
   try {
@@ -31,10 +33,13 @@ export async function cleanDatabase(prisma: PrismaClient): Promise<void> {
 /**
  * Creates test records in the database for use in tests.
  *
- * @param {PrismaClient} prisma - Prisma client instance used to perform database operations
+ * @param {PrismaClient} prisma - Prisma client instance used to perform
+ * database operations
  * @returns Promise resolving to an object containing:
- *   - tone: Tone record with name 'Test Tone', description 'Test description', and systemPrompt 'Test system prompt'
- *   - apiKey: ApiKey record with provider 'openai', encryptedKey 'test-encrypted-key', and isActive true
+ *   - tone: Tone record with name 'Test Tone', description 'Test description',
+ *     and systemPrompt 'Test system prompt'
+ *   - apiKey: ApiKey record with provider 'openai',
+ *     encryptedKey 'test-encrypted-key', and isActive true
  */
 export async function seedTestData(prisma: PrismaClient) {
   const tone = await prisma.tone.create({
