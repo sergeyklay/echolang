@@ -6,9 +6,16 @@ This document provides detailed development instructions for the EchoLang projec
 
 ### Prerequisites
 
-- Node.js v24 or higher
+- Node.js v24 (specified in `.nvmrc` at project root)
+- nvm (Node Version Manager) - recommended
 - npm
 - SQLite (included with Node.js)
+
+**Important**: The project uses Node.js v24 as specified in `.nvmrc`. Before starting development, run:
+```bash
+nvm use
+```
+or make sure you have Node.js v24 installed.
 
 ### Backend Setup
 

@@ -15,7 +15,8 @@ EchoLang is a minimal web-based LLM Translator designed for single-user local de
 ## Tech Stack
 
 ### Backend
-- **Runtime**: Node.js v24
+- **Runtime**: Node.js v24 (specified in `.nvmrc`, use `nvm use` to switch)
+- **Module System**: CommonJS (TypeScript compiles to CommonJS)
 - **Language**: TypeScript
 - **Framework**: Express.js
 - **Database**: SQLite with Prisma ORM
@@ -68,6 +69,7 @@ echolang/
 │   │   │   └── database.ts
 │   │   ├── controllers/
 │   │   │   ├── translation.controller.ts
+│   │   │   ├── translation.controller.test.ts
 │   │   │   ├── tone.controller.ts
 │   │   │   ├── history.controller.ts
 │   │   │   └── settings.controller.ts
@@ -79,15 +81,22 @@ echolang/
 │   │   │   │   ├── gemini.service.ts
 │   │   │   │   └── local.service.ts
 │   │   │   ├── encryption.service.ts
+│   │   │   ├── encryption.service.test.ts
 │   │   │   └── translation.service.ts
 │   │   ├── middleware/
 │   │   │   ├── error.middleware.ts
 │   │   │   └── validation.middleware.ts
 │   │   ├── routes/
 │   │   │   ├── translation.routes.ts
+│   │   │   ├── translation.routes.test.ts
 │   │   │   ├── tone.routes.ts
 │   │   │   ├── history.routes.ts
 │   │   │   └── settings.routes.ts
+│   │   ├── __tests__/
+│   │   │   ├── setup.ts
+│   │   │   └── helpers/
+│   │   │       ├── test-db.ts
+│   │   │       └── fixtures.ts
 │   │   ├── utils/
 │   │   │   └── logger.ts
 │   │   ├── types/
@@ -101,7 +110,8 @@ echolang/
 │   ├── .env.example
 │   ├── .gitignore
 │   ├── package.json
-│   └── tsconfig.json
+│   ├── tsconfig.json
+│   └── vitest.config.mjs
 ├── docs/
 │   ├── rules/
 │   │   ├── coding-standards.md
@@ -124,10 +134,19 @@ echolang/
 │   │   │   ├── History.tsx
 │   │   │   └── Settings.tsx
 │   │   ├── services/
-│   │   │   └── api.ts
+│   │   │   ├── api.ts
+│   │   │   └── api.test.ts
 │   │   ├── hooks/
 │   │   │   ├── useLocalStorage.ts
+│   │   │   ├── useLocalStorage.test.ts
 │   │   │   └── useDocumentTitle.ts
+│   │   ├── __tests__/
+│   │   │   ├── setup.ts
+│   │   │   ├── mocks/
+│   │   │   │   ├── handlers.ts
+│   │   │   │   └── server.ts
+│   │   │   └── helpers/
+│   │   │       └── test-utils.tsx
 │   │   ├── types/
 │   │   │   └── index.ts
 │   │   ├── assets/
@@ -145,11 +164,13 @@ echolang/
 │   ├── tsconfig.app.json
 │   ├── tsconfig.node.json
 │   ├── vite.config.ts
+│   └── vitest.config.ts
 │   ├── tailwind.config.js
 │   ├── postcss.config.js
 │   ├── eslint.config.js
 │   └── README.md
 ├── .gitignore
+├── .nvmrc
 ├── AGENTS.md
 ├── LICENSE
 └── README.md
