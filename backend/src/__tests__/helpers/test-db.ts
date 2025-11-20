@@ -26,7 +26,10 @@ export async function cleanDatabase(prisma: PrismaClient): Promise<void> {
       await tx.apiKey.deleteMany();
     });
   } catch (error) {
-    throw new Error(`Failed to clean database: ${error instanceof Error ? error.message : String(error)}`);
+    if (error instanceof Error) {
+      throw new Error('Failed to clean database', { cause: error });
+    }
+    throw new Error(`Failed to clean database: ${String(error)}`);
   }
 }
 
