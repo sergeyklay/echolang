@@ -2,7 +2,7 @@
 
 A minimal web-based LLM Translator for single-user local deployment. Translate text using various LLM providers (OpenAI, Anthropic, Gemini, or local LLMs) with customizable tones and styles.
 
-![Screenshot 1](docs/screenshots/Screenshot1.png)
+![Screenshot 1](./docs/screenshots/Screenshot1.png)
 
 ## Disclaimer
 
@@ -12,7 +12,7 @@ This project is a proof-of-concept for fully AI-driven development. Since I didn
 
 It works for me, but it comes with **no warranties**. Always audit the code before using it for anything serious.
 
-During the development of this project, I kept records of all the prompts I used with the agents, along with tracked timings for each major task. You’ll find all of these details in [docs/HISTORY.md](docs/HISTORY.md). If you’re interested in repeating this experiment or trying something similar, feel free to use this file as a reference.
+During the development of this project, I kept records of all the prompts I used with the agents, along with tracked timings for each major task. You’ll find all of these details in [docs/HISTORY.md](./docs/HISTORY.md). If you’re interested in repeating this experiment or trying something similar, feel free to use this file as a reference.
 
 ## Features
 
@@ -29,10 +29,14 @@ During the development of this project, I kept records of all the prompts I used
 
 ## Documentation
 
-- [Architecture](ARCHITECTURE.md)
-- [Development Guide](docs/DEVELOPMENT.md)
-- [Coding Standards](docs/CODING_STANDARDS.md)
+- [Project Architecture](./docs/ARCHITECTURE.md)
+- [Development Guide](./docs/rules/development.md)
+- [Dependency Management](./docs/rules/dependency-management.md)
+- [Coding Standards](./docs/rules/coding-standards.md)
+- [Troubleshooting](./docs/rules/troubleshooting.md)
+- [Security](./docs/rules/security.md)
+- [Testing](./docs/rules/testing.md)
 
 ## License
 
-See [LICENSE](LICENSE) for details.
+See [LICENSE](./LICENSE) for details.
