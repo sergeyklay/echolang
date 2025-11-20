@@ -1,16 +1,31 @@
 import { PrismaClient } from '@prisma/client';
 
 /**
- * Clears all test database tables by deleting all records.
+ * Clears all test database tables by deleting all records in the correct order within a transaction.
+ * This ensures atomicity and handles foreign key constraints properly.
+ *
+ * The deletion order is determined by foreign key relationships:
+ * - Translation (has FK to Tone) must be deleted before Tone
+ * - Tone can be deleted after Translation
+ * - ApiKey (no FKs) can be deleted in any order
  *
  * @param prisma - Prisma client instance used to perform database operations
  * @returns Promise that resolves when all tables are cleared
+ * @throws Error if the transaction fails
  * @sideEffect Deletes all translation, tone, and apiKey records from the database
  */
 export async function cleanDatabase(prisma: PrismaClient): Promise<void> {
-  await prisma.translation.deleteMany();
-  await prisma.tone.deleteMany();
-  await prisma.apiKey.deleteMany();
+  try {
+    await prisma.$transaction(async (tx) => {
+      // Delete in order: child models first (with FKs), then parent models
+      // Translation has FK to Tone, so delete Translation before Tone
+      await tx.translation.deleteMany();
+      await tx.tone.deleteMany();
+      await tx.apiKey.deleteMany();
+    });
+  } catch (error) {
+    throw new Error(`Failed to clean database: ${error instanceof Error ? error.message : String(error)}`);
+  }
 }
 
 /**

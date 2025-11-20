@@ -3,6 +3,7 @@ import { PrismaClient } from '@prisma/client';
 import { execSync } from 'child_process';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { cleanDatabase } from './helpers/test-db.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const testDatabaseUrl = process.env.TEST_DATABASE_URL || 'file:./test.db';
@@ -89,9 +90,7 @@ beforeAll(async () => {
 
 beforeEach(async () => {
   // Clean database before each test
-  await prisma.translation.deleteMany();
-  await prisma.tone.deleteMany();
-  await prisma.apiKey.deleteMany();
+  await cleanDatabase(prisma);
 });
 
 afterAll(async () => {
