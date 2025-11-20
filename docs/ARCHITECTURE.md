@@ -99,17 +99,26 @@ echolang/
 │   │   ├── seed.ts
 │   │   └── migrations/
 │   ├── .env.example
+│   ├── .gitignore
 │   ├── package.json
 │   └── tsconfig.json
 ├── docs/
-│   ├── CODING_STANDARDS.md
-│   ├── DEVELOPMENT.md
-│   └── ARCHITECTURE.md
+│   ├── rules/
+│   │   ├── coding-standards.md
+│   │   ├── dependency-management.md
+│   │   ├── development.md
+│   │   ├── security.md
+│   │   ├── testing.md
+│   │   └── troubleshooting.md
+│   ├── screenshots/
+│   ├── ARCHITECTURE.md
+│   └── HISTORY.md
 ├── frontend/
 │   ├── src/
 │   │   ├── components/
 │   │   │   └── Layout/
-│   │   │       └── Layout.tsx
+│   │   │       ├── Layout.tsx
+│   │   │       └── Header.tsx
 │   │   ├── pages/
 │   │   │   ├── Translator.tsx
 │   │   │   ├── History.tsx
@@ -117,19 +126,32 @@ echolang/
 │   │   ├── services/
 │   │   │   └── api.ts
 │   │   ├── hooks/
-│   │   │   └── useLocalStorage.ts
+│   │   │   ├── useLocalStorage.ts
+│   │   │   └── useDocumentTitle.ts
 │   │   ├── types/
 │   │   │   └── index.ts
+│   │   ├── assets/
+│   │   │   └── react.svg
 │   │   ├── App.tsx
-│   │   └── main.tsx
+│   │   ├── main.tsx
+│   │   └── index.css
+│   ├── public/
+│   │   └── vite.svg
+│   ├── .env.example
+│   ├── .gitignore
 │   ├── index.html
 │   ├── package.json
 │   ├── tsconfig.json
-│   └── vite.config.ts
-├── .envrc
+│   ├── tsconfig.app.json
+│   ├── tsconfig.node.json
+│   ├── vite.config.ts
+│   ├── tailwind.config.js
+│   ├── postcss.config.js
+│   ├── eslint.config.js
+│   └── README.md
 ├── .gitignore
 ├── AGENTS.md
-├── ARCHITECTURE.md
+├── LICENSE
 └── README.md
 ```
 
