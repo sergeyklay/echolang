@@ -1,7 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { encryptionService } from './encryption.service';
-import * as loggerModule from '../utils/logger';
-
 vi.mock('../utils/logger', () => ({
   logger: {
     info: vi.fn(),
