@@ -33,13 +33,13 @@ reviews:
   labeling_instructions: []
   path_filters: []
   path_instructions:
-    - path: "README.md"
+    - path: "**/*.md"
       instructions: >-
-        1. Consider the file 'README.md' the overview/introduction of the project.
-           Also consider the 'README.md' file the first place to look for project documentation.
-        2. When reviewing the file 'README.md' it should be linted with help
+        1. Consider the file './AGENTS.md' the overview/introduction of the project.
+           Also consider the './docs/ARCHITECTURE.md' file the first place to look for project documentation and architecture.
+        2. When reviewing the file markdown files, they should be linted with help
            from the tools `markdownlint` and `languagetool`, pointing out any issues.
-        3. You may assume the file 'README.md' will contain GitHub flavor Markdown.
+        3. You may assume the markdown files will contain GitHub flavor Markdown.
     - path: "**/package.json"
       instructions: >-
         1. Verify that ONLY npm is used - alternative package managers (yarn, pnpm, bun) are forbidden.

@@ -1,35 +1,13 @@
-# Coding Standards
+# Dependency Management
 
-This file provides coding standards for the EchoLang project. For agent-specific guidance, see [AGENTS.md](../AGENTS.md).
-
-## TypeScript
-
-- Use TypeScript strict mode
-- Follow Airbnb style guide for TypeScript (enforced by ESLint)
-- 100-character line-length limit
-- Use JSDoc style docstrings for functions, classes, and complex interfaces
-- Imperative voice in descriptions, focus on side effects, parameters, return types, and potential errors
-- Avoid obvious comments explaining basic syntax
-
-## React Components
-
-- Use functional components with hooks
-- Keep components small and focused
-- Use proper prop typing
-- File naming: PascalCase.tsx
-
-## Dependency Management
-
-**For dependency files:** Strict rules for managing project dependencies with npm.
-
-### Core Principles
+## Core Principles
 
 - **ONLY use `npm`** - alternative package managers (yarn, pnpm, bun) are forbidden in this project
 - **Lock file committed** - `package-lock.json` must be in version control
 - **Semantic versioning** - use version ranges thoughtfully to balance stability and updates
 - **Security first** - regular audits and vulnerability checks are mandatory
 
-### Essential Commands
+## Essential Commands
 
 ```bash
 # ✅ DO: Correct npm usage
@@ -53,7 +31,7 @@ bun add package-name                        # Don't use bun
 npm install --no-package-lock               # Don't skip lock file generation
 ```
 
-### Quick Reference
+## Quick Reference
 
 ```bash
 # Add dependency
@@ -78,13 +56,13 @@ npm audit
 npm audit fix
 ```
 
-### Version Management
+## Version Management
 
 - **Production dependencies**: Prefer caret (`^`) for minor/patch updates, use exact versions (`--save-exact`) for critical dependencies
 - **Development dependencies**: More flexible versioning acceptable
 - **Review updates**: Always review `package-lock.json` changes before committing
 
-### Critical Rules
+## Critical Rules
 
 - **NEVER use alternative package managers** - npm only in this project
 - **Commit `package-lock.json`** - always version control lock file for reproducible builds

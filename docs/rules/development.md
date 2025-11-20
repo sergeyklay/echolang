@@ -1,6 +1,6 @@
 # Development Guide
 
-This document provides detailed development instructions for the EchoLang project. For agent-specific guidance, see [AGENTS.md](../AGENTS.md).
+This document provides detailed development instructions for the EchoLang project. Dependency management rules are described in [Dependency Management](./dependency-management.md), for testing guidelines, see [Testing](./testing.md), and security considerations, are described in [Security](./security.md).
 
 ## Environment Setup
 
@@ -131,52 +131,3 @@ cd backend && npm run build
 # Frontend
 cd frontend && npm run build
 ```
-
-## Project Architecture
-
-See [ARCHITECTURE.md](../ARCHITECTURE.md) for:
-- Detailed project structure
-- API endpoint specifications
-- Database schema
-- Security design
-
-## Common Tasks
-
-### Adding a New LLM Provider
-
-1. Create service file in `backend/src/services/llm/`
-2. Implement the LLM service interface
-3. Register in `llm.service.ts`
-4. Update API key settings to support the new provider
-
-### Adding a New API Endpoint
-
-1. Create controller in `backend/src/controllers/`
-2. Create route in `backend/src/routes/`
-3. Add validation schema using Zod
-4. Register route in `backend/src/app.ts`
-5. Update frontend API service if needed
-
-### Database Changes
-
-1. Update `backend/prisma/schema.prisma`
-2. Create migration: `npm run prisma:migrate`
-3. Regenerate Prisma client: `npm run prisma:generate`
-
-## Troubleshooting
-
-### Database Issues
-
-- If migrations fail, check `backend/prisma/migrations/` for conflicts
-- Reset database (development only): Delete `backend/dev.db` and run migrations again
-
-### Port Conflicts
-
-- Backend port: Change `PORT` in `backend/.env`
-- Frontend port: Vite will automatically use next available port
-
-### Type Errors
-
-- Ensure Prisma client is generated: `npm run prisma:generate`
-- Clear TypeScript cache and rebuild
-
