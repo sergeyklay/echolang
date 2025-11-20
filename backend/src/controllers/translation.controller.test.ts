@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { Request, Response } from 'express';
 import { translate } from './translation.controller';
 import * as translationService from '../services/translation.service';
+import { ValidationError } from '../utils/errors';
 
 vi.mock('../services/translation.service');
 vi.mock('../utils/logger', () => ({
@@ -67,7 +68,7 @@ describe('TranslationController', () => {
     });
 
     it('should handle validation errors', async () => {
-      const error = new Error('Validation failed');
+      const error = new ValidationError('Validation failed');
       mockRequest.body = {
         sourceText: '',
         sourceLanguage: 'en',
@@ -79,7 +80,7 @@ describe('TranslationController', () => {
 
       await translate(mockRequest as Request, mockResponse as Response);
 
-      expect(mockStatus).toHaveBeenCalledWith(500);
+      expect(mockStatus).toHaveBeenCalledWith(400);
       expect(mockJson).toHaveBeenCalledWith({
         error: 'Validation failed',
       });
@@ -102,6 +103,25 @@ describe('TranslationController', () => {
       expect(mockStatus).toHaveBeenCalledWith(404);
       expect(mockJson).toHaveBeenCalledWith({
         error: 'Tone not found: invalid-id',
+      });
+    });
+
+    it('should handle unexpected errors with 500 status', async () => {
+      const error = new Error('Internal server error');
+      mockRequest.body = {
+        sourceText: 'Hello',
+        sourceLanguage: 'en',
+        targetLanguage: 'es',
+        llmProvider: 'openai',
+      };
+
+      vi.mocked(translationService.translateText).mockRejectedValue(error);
+
+      await translate(mockRequest as Request, mockResponse as Response);
+
+      expect(mockStatus).toHaveBeenCalledWith(500);
+      expect(mockJson).toHaveBeenCalledWith({
+        error: 'Internal server error',
       });
     });
   });
