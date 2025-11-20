@@ -1,0 +1,7 @@
+---
+description: Architecture documentation synchronization rule
+globs: **/*
+alwaysApply: true
+---
+
+Make sure [ARCHITECTURE.md](../../docs/ARCHITECTURE.md) is always up to date with the latest architecture of the project. This means every time you make a change to the project, you MUST update the ARCHITECTURE.md file to reflect the latest changes. This is especially important for the Project Structure section.
