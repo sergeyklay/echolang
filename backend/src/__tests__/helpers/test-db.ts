@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, Tone, ApiKey } from '@prisma/client';
 
 /**
  * Clears all test database tables by deleting all records in the correct order
@@ -36,15 +36,17 @@ export async function cleanDatabase(prisma: PrismaClient): Promise<void> {
 /**
  * Creates test records in the database for use in tests.
  *
- * @param {PrismaClient} prisma - Prisma client instance used to perform
- * database operations
+ * @param prisma - Prisma client instance used to perform database
+ *   operations
  * @returns Promise resolving to an object containing:
- *   - tone: Tone record with name 'Test Tone', description 'Test description',
- *     and systemPrompt 'Test system prompt'
+ *   - tone: Tone record with name 'Test Tone', description 'Test
+ *     description', and systemPrompt 'Test system prompt'
  *   - apiKey: ApiKey record with provider 'openai',
  *     encryptedKey 'test-encrypted-key', and isActive true
  */
-export async function seedTestData(prisma: PrismaClient) {
+export async function seedTestData(
+  prisma: PrismaClient
+): Promise<{ tone: Tone; apiKey: ApiKey }> {
   const tone = await prisma.tone.create({
     data: {
       name: 'Test Tone',
