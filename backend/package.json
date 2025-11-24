@@ -22,7 +22,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.70.0",
+    "@anthropic-ai/sdk": "^0.70.1",
     "@google/genai": "^1.30.0",
     "@prisma/client": "^5.19.0",
     "cors": "^2.8.5",
@@ -36,7 +36,7 @@
     "@types/express": "^5.0.0",
     "@types/node": "^22.7.0",
     "@types/supertest": "^6.0.3",
-    "@vitest/ui": "^4.0.12",
+    "@vitest/ui": "^4.0.13",
     "prisma": "^5.19.0",
     "supertest": "^7.1.4",
     "tsx": "^4.19.0",
